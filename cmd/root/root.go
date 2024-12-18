@@ -1,8 +1,12 @@
 package root
 
 import (
-	"os"
+	"context"
+	"log"
+	"strconv"
+	"time"
 
+	"github.com/Mobo140/chat/pkg/chat_v1"
 	"github.com/Mobo140/platform_common/pkg/logger"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
@@ -11,91 +15,82 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "chat-cli",
 	Short: "Chat CLI",
-	Long:  "Chat CLI",
+	Long:  "Chat CLI for managing chats",
 }
 
-var createCmd = &cobra.Command{
-	Use:   "create",
-	Short: "Creating something",
+func InitCommands(chatClient chat_v1.ChatV1Client) {
+	rootCmd.AddCommand(newCreateChatCmd(chatClient))
+	rootCmd.AddCommand(newDeleteChatCmd(chatClient))
 }
 
-var deleteCmd = &cobra.Command{
-	Use:   "delete",
-	Short: "Delete something",
+func newCreateChatCmd(chatClient chat_v1.ChatV1Client) *cobra.Command {
+	return &cobra.Command{
+		Use:   "create-chat",
+		Short: "Create a new chat",
+		Run: func(cmd *cobra.Command, args []string) {
+			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+			defer cancel()
+
+			usernames, err := cmd.Flags().GetStringSlice("username")
+			if err != nil {
+				logger.Error("failed to get usernames", zap.Error(err))
+				return
+			}
+
+			logger.Info("Creating chat", zap.Any("usernames", usernames))
+
+			resp, err := chatClient.Create(ctx, &chat_v1.CreateRequest{
+				Info: &chat_v1.ChatInfo{
+					Usernames: usernames,
+				},
+			})
+			if err != nil {
+				logger.Error("failed to create chat", zap.Error(err))
+				return
+			}
+
+			logger.Info("Chat created successfully", zap.String("chat_id", strconv.FormatInt(resp.Id, 10)))
+		},
+	}
 }
 
-var createUserCmd = &cobra.Command{
-	Use:   "user",
-	Short: "Создает нового пользователя",
-	Run: func(cmd *cobra.Command, args []string) {
-		usernamesStr, err := cmd.Flags().GetString("username")
-		if err != nil {
-			logger.Error("failed to get usernames", zap.Error(err))
+func newDeleteChatCmd(chatClient chat_v1.ChatV1Client) *cobra.Command {
+	return &cobra.Command{
+		Use:   "delete-chat",
+		Short: "Delete an existing chat",
+		Run: func(cmd *cobra.Command, args []string) {
+			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+			defer cancel()
 
-			return
-		}
+			chatID, err := cmd.Flags().GetString("chat_id")
+			if err != nil {
+				logger.Error("failed to get chat_id", zap.Error(err))
+				return
+			}
 
-		logger.Info("Creating users", zap.String("usernames", usernamesStr))
-	},
-}
+			logger.Info("Deleting chat", zap.String("chat_id", chatID))
+			
+			id, err := strconv.ParseInt(chatID, 10, 64)
+			if err != nil {
+				logger.Error("failed to parse chat_id", zap.Error(err))
+				return
+			}
 
-var createChatCmd = &cobra.Command{
-	Use:   "user",
-	Short: "Создает новый chat",
-	Run: func(cmd *cobra.Command, args []string) {
-		usernamesStr, err := cmd.Flags().GetString("username")
-		if err != nil {
-			logger.Error("failed to get usernames", zap.Error(err))
+			_, err = chatClient.Delete(ctx, &chat_v1.DeleteRequest{
+				Id: id,
+			})
+			if err != nil {
+				logger.Error("failed to delete chat", zap.Error(err))
+				return
+			}
 
-			return
-		}
-
-		logger.Info("Creating users", zap.String("usernames", usernamesStr))
-	},
-}
-
-var deleteUserCmd = &cobra.Command{
-	Use:   "user",
-	Short: "Удаляет пользователя",
-	Run: func(cmd *cobra.Command, args []string) {
-		usernamesStr, err := cmd.Flags().GetString("username")
-		if err != nil {
-			logger.Error("failed to get usernames", zap.Error(err))
-
-			return
-		}
-
-		logger.Info("Deleting user", zap.String("username", usernamesStr))
-	},
+			logger.Info("Chat deleted successfully", zap.String("chat_id", chatID))
+		},
+	}
 }
 
 func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
-	}
-}
-
-func init() {
-	rootCmd.AddCommand(createCmd)
-	rootCmd.AddCommand(deleteCmd)
-
-	createCmd.AddCommand(createUserCmd)
-	deleteCmd.AddCommand(deleteUserCmd)
-
-	createUserCmd.Flags().StringP("username", "u", "", "Username")
-	err := createUserCmd.MarkFlagRequired("username")
-	if err != nil {
-		logger.Error("failed to mark username flag as required", zap.Error(err))
-
-		return
-	}
-
-	deleteUserCmd.Flags().StringP("username", "u", "", "Username")
-	err = deleteUserCmd.MarkFlagRequired("username")
-	if err != nil {
-		logger.Error("failed to mark username flag as required", zap.Error(err))
-
-		return
+	if err := rootCmd.Execute(); err != nil {
+		log.Fatalf("failed to execute command: %v", err)
 	}
 }
