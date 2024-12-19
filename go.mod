@@ -5,6 +5,7 @@ go 1.22.7
 toolchain go1.22.10
 
 require (
+	github.com/Mobo140/auth v1.2.0
 	github.com/Mobo140/chat v1.1.0
 	github.com/Mobo140/platform_common v1.8.0
 	github.com/grpc-ecosystem/grpc-opentracing v0.0.0-20180507213350-8e809c8a8645

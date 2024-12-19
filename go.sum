@@ -1,3 +1,5 @@
+github.com/Mobo140/auth v1.2.0 h1:lnh6498deZVpqD+YMqiwtkcQUVvJwa+NfiQv6j3HPyo=
+github.com/Mobo140/auth v1.2.0/go.mod h1:5pVFaSRm3pTW40C9ace9wv14JEw/U/bdpYVI5UCJwAE=
 github.com/Mobo140/chat v1.1.0 h1:OfF3f1ga0xW3hoMoyUIDXJKX5PFsTl7Bya2BmO2s2Xk=
 github.com/Mobo140/chat v1.1.0/go.mod h1:6ADJ54mI3Qs8esRPCANeUzNCfJzsaHByZRL9BOR/PoY=
 github.com/Mobo140/platform_common v1.8.0 h1:nopuxQy/qE8BRoQG0mQzOgX9e+Irxb0yRCvQKe54yjM=

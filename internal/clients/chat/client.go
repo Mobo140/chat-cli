@@ -51,3 +51,27 @@ func (c *client) Delete(ctx context.Context, chatID string) error {
 
 	return nil
 }
+
+func (c *client) SendMessage(ctx context.Context, message *Message) error {
+	id, err := strconv.ParseInt(message.ChatID, 10, 64)
+	if err != nil {
+		logger.Error("failed to parse chat ID", zap.Error(err))
+
+		return err
+	}
+
+	_, err = c.chatClient.SendMessage(ctx, &descChat.SendMessageRequest{
+		ChatId: id,
+		Message: &descChat.Message{
+			From: message.Username,
+			Text: message.Text,
+		},
+	})
+	if err != nil {
+		logger.Error("failed to send message", zap.Error(err))
+
+		return err
+	}
+
+	return nil
+}
