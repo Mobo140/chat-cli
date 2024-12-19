@@ -112,7 +112,7 @@ func InitCommands(chatClient clients.ChatServiceClient,
 	createChatCmd := newCreateChatCmd(chatClient)
 	deleteChatCmd := newDeleteChatCmd(chatClient)
 	sendMessageCmd := newSendMessageCmd(chatClient, sessionFile)
-	connectChatCmd := newConnectChatCmd(chatClient, sessionFile)
+	connectChatCmd := newConnectChatCmd(chatClient)
 
 	RootCmd.AddCommand(loginCmd)
 	RootCmd.AddCommand(createChatCmd)
@@ -305,7 +305,7 @@ func saveSession(session *Session, sessionFile string) error {
 	return os.WriteFile(sessionFile, data, 0600)
 }
 
-func newConnectChatCmd(chatClient clients.ChatServiceClient, sessionFile string) *cobra.Command {
+func newConnectChatCmd(chatClient clients.ChatServiceClient) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "connect-chat",
 		Short: "Connect to chat",
@@ -315,7 +315,7 @@ Use Ctrl+C to disconnect from chat.`,
 			chatID, _ := cmd.Flags().GetString("chat-id")
 			username, _ := cmd.Flags().GetString("username")
 
-			logger.Info("Attempting to connect to chat...", 
+			logger.Info("Attempting to connect to chat...",
 				zap.String("chat_id", chatID),
 				zap.String("username", username))
 
@@ -335,7 +335,7 @@ Use Ctrl+C to disconnect from chat.`,
 				errChan <- chatClient.ConnectChat(ctx, chatID, username)
 			}()
 
-			logger.Info("Successfully connected to chat. Press Ctrl+C to disconnect.", 
+			logger.Info("Successfully connected to chat. Press Ctrl+C to disconnect.",
 				zap.String("chat_id", chatID),
 				zap.String("username", username))
 
@@ -348,7 +348,7 @@ Use Ctrl+C to disconnect from chat.`,
 				return
 			case err := <-errChan:
 				if err != nil {
-					logger.Error("Error in chat connection", 
+					logger.Error("Error in chat connection",
 						zap.Error(err),
 						zap.String("chat_id", chatID),
 						zap.String("username", username))
