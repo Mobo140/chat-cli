@@ -6,11 +6,15 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
+	"strings"
+	"syscall"
 	"time"
 
 	"github.com/Mobo140/chat-cli/internal/clients"
 	"github.com/Mobo140/chat-cli/internal/clients/chat"
 	"github.com/Mobo140/platform_common/pkg/logger"
+	"github.com/chzyer/readline"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
 	"google.golang.org/grpc/metadata"
@@ -22,32 +26,110 @@ const (
 	timeout                  = 5 * time.Second
 )
 
-var rootCmd = &cobra.Command{
+var (
+	ConfigPath string
+	LogLevel   string
+)
+
+func init() {
+	RootCmd.PersistentFlags().StringVar(&ConfigPath, "config-path", ".env", "Path to config file")
+	RootCmd.PersistentFlags().StringVarP(&LogLevel, "log-level", "l", "info", "Log level")
+}
+
+var RootCmd = &cobra.Command{
 	Use:   "chat-cli",
 	Short: "Chat CLI",
 	Long:  "Chat CLI for managing chats",
+	Run: func(cmd *cobra.Command, args []string) {
+		StartREPL(cmd)
+	},
 }
 
-func InitCommands(chatClient clients.ChatServiceClient, authClient clients.AuthServiceClient, sessionFile string) {
-	rootCmd.AddCommand(newCreateChatCmd(chatClient))
-	rootCmd.AddCommand(newDeleteChatCmd(chatClient))
-	rootCmd.AddCommand(newSendMessageCmd(chatClient, sessionFile))
-	rootCmd.AddCommand(newLoginCmd(authClient, sessionFile))
+func StartREPL(cmd *cobra.Command) {
+	rl, err := readline.New("> ")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rl.Close()
+
+	// Создаем канал для сигнала завершения
+	done := make(chan os.Signal, 1)
+	signal.Notify(done, os.Interrupt, syscall.SIGTERM)
+
+	fmt.Println("Welcome to Chat CLI. Type 'exit' to quit or press Ctrl+C.")
+
+	// Запускаем горутину для обработки сигнала завершения
+	go func() {
+		<-done
+		fmt.Println("\nReceived interrupt signal. Exiting...")
+		os.Exit(0)
+	}()
+
+	for {
+		fmt.Println()
+
+		line, err := rl.Readline()
+		if err != nil {
+			break
+		}
+
+		line = strings.TrimSpace(line)
+		if line == "" {
+			continue
+		}
+
+		if line == "exit" || line == "quit" || line == "q" {
+			fmt.Println("Goodbye!")
+			break
+		}
+
+		if line == "clear" {
+			fmt.Print("\033[H\033[2J") // Очистка экрана
+			continue
+		}
+
+		args := strings.Fields(line)
+		if len(args) == 0 {
+			continue
+		}
+
+		cmd.SetArgs(args)
+		if err := cmd.Execute(); err != nil {
+			fmt.Printf("Error: %v\n", err)
+		}
+		cmd.SetArgs(nil)
+
+		time.Sleep(100 * time.Millisecond)
+	}
+}
+
+func InitCommands(chatClient clients.ChatServiceClient,
+	authClient clients.AuthServiceClient,
+	sessionFile string,
+	loginDoneCh chan struct{},
+) {
+	loginCmd := newLoginCmd(authClient, sessionFile, loginDoneCh)
+	createChatCmd := newCreateChatCmd(chatClient)
+	deleteChatCmd := newDeleteChatCmd(chatClient)
+	sendMessageCmd := newSendMessageCmd(chatClient, sessionFile)
+	connectChatCmd := newConnectChatCmd(chatClient, sessionFile)
+
+	RootCmd.AddCommand(loginCmd)
+	RootCmd.AddCommand(createChatCmd)
+	RootCmd.AddCommand(deleteChatCmd)
+	RootCmd.AddCommand(sendMessageCmd)
+	RootCmd.AddCommand(connectChatCmd)
 }
 
 func newCreateChatCmd(chatClient clients.ChatServiceClient) *cobra.Command {
-	return &cobra.Command{
+	cmd := &cobra.Command{
 		Use:   "create-chat",
 		Short: "Create a new chat",
 		Run: func(cmd *cobra.Command, args []string) {
-			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-			defer cancel()
+			usernames, _ := cmd.Flags().GetStringArray("username")
 
-			usernames, err := cmd.Flags().GetStringSlice("username")
-			if err != nil {
-				logger.Error("failed to get usernames", zap.Error(err))
-				return
-			}
+			ctx, cancel := context.WithTimeout(context.Background(), timeout)
+			defer cancel()
 
 			logger.Info("Creating chat", zap.Any("usernames", usernames))
 
@@ -60,106 +142,140 @@ func newCreateChatCmd(chatClient clients.ChatServiceClient) *cobra.Command {
 			logger.Info("Chat created successfully", zap.String("chat_id", chatID))
 		},
 	}
+
+	cmd.Flags().StringArray("username", []string{}, "Usernames to add to chat (can be specified multiple times)")
+	cmd.MarkFlagRequired("username")
+
+	return cmd
 }
 
-func newLoginCmd(authClient clients.AuthServiceClient, sessionFile string) *cobra.Command {
-	return &cobra.Command{
+func newLoginCmd(authClient clients.AuthServiceClient, sessionFile string, loginDoneCh chan struct{}) *cobra.Command {
+	cmd := &cobra.Command{
 		Use:   "login",
 		Short: "Login to the chat",
 		Run: func(cmd *cobra.Command, args []string) {
+			username, _ := cmd.Flags().GetString("username")
+			password, _ := cmd.Flags().GetString("password")
+
 			ctx, cancel := context.WithTimeout(context.Background(), timeout)
 			defer cancel()
-
-			username, err := cmd.Flags().GetString("username")
-			if err != nil {
-				logger.Error("failed to get username", zap.Error(err))
-
-				return
-			}
-
-			password, err := cmd.Flags().GetString("password")
-			if err != nil {
-				logger.Error("failed to get password", zap.Error(err))
-
-				return
-			}
 
 			refreshToken, err := authClient.Login(ctx, username, password)
 			if err != nil {
 				logger.Error("failed to login", zap.Error(err))
+				return
+			}
 
+			accessToken, err := authClient.GetAccessToken(ctx, refreshToken)
+			if err != nil {
+				logger.Error("failed to get access token", zap.Error(err))
 				return
 			}
 
 			session := &Session{
-				RefreshToken: refreshToken,
 				Username:     username,
+				AccessToken:  accessToken,
+				RefreshToken: refreshToken,
 			}
 
 			if err := saveSession(session, sessionFile); err != nil {
 				logger.Error("failed to save session", zap.Error(err))
-
 				return
 			}
 
 			logger.Info("Logged in successfully", zap.String("username", username))
 
+			select {
+			case loginDoneCh <- struct{}{}:
+				logger.Debug("Sent signal about new login")
+			default:
+
+				select {
+				case <-loginDoneCh:
+				default:
+				}
+				loginDoneCh <- struct{}{}
+			}
 		},
 	}
+
+	cmd.Flags().String("username", "", "Username for login")
+	cmd.Flags().String("password", "", "Password for login")
+	cmd.MarkFlagRequired("username")
+	cmd.MarkFlagRequired("password")
+
+	return cmd
 }
 
-// Cron: get refresh token every 4 minutes and update session
-func RefreshTokenCron(authClient clients.AuthServiceClient, sessionFile string) {
+func RefreshTokenCron(authClient clients.AuthServiceClient, sessionFile string, loginDoneCh chan struct{}, refreshTokenDoneCh chan struct{}) {
 	for {
-		session, err := loadSession(sessionFile)
-		if err != nil {
-			logger.Error("failed to load session", zap.Error(err))
-			return
+		<-loginDoneCh
+
+		select {
+		case <-refreshTokenDoneCh:
+		default:
 		}
 
-		ctx, cancel := context.WithTimeout(context.Background(), timeout)
-		defer cancel()
+		for {
+			session, err := loadSession(sessionFile)
+			if err != nil {
+				logger.Error("failed to load session", zap.Error(err))
+				break
+			}
 
-		newRefreshToken, err := authClient.GetRefreshToken(ctx, session.RefreshToken)
-		if err != nil {
-			logger.Error("failed to refresh token", zap.Error(err))
-			return
+			ctx, cancel := context.WithTimeout(context.Background(), timeout)
+			newRefreshToken, err := authClient.GetRefreshToken(ctx, session.RefreshToken)
+			cancel()
+
+			if err != nil {
+				logger.Error("failed to refresh token", zap.Error(err))
+				break
+			}
+
+			session.RefreshToken = newRefreshToken
+
+			if err := saveSession(session, sessionFile); err != nil {
+				logger.Error("failed to save session", zap.Error(err))
+				break
+			}
+
+			logger.Info("Refresh token updated")
+
+			select {
+			case refreshTokenDoneCh <- struct{}{}:
+				logger.Debug("Sent signal to start access token updates")
+			default:
+
+			}
+
+			time.Sleep(refreshTokenCronInterval)
 		}
-
-		session.RefreshToken = newRefreshToken
-
-		if err := saveSession(session, sessionFile); err != nil {
-			logger.Error("failed to save session", zap.Error(err))
-			return
-		}
-
-		logger.Info("Refresh token updated")
-		time.Sleep(refreshTokenCronInterval)
 	}
 }
 
-// Cron: Get new access token every 59 minutes
-func AccessTokenCron(authClient clients.AuthServiceClient, sessionFile string) {
+func AccessTokenCron(authClient clients.AuthServiceClient, sessionFile string, refreshTokenDoneCh chan struct{}) {
+	<-refreshTokenDoneCh
+
 	for {
 		session, err := loadSession(sessionFile)
 		if err != nil {
 			logger.Error("failed to load session", zap.Error(err))
-			return
+			continue
 		}
 
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
-		defer cancel()
-
 		newAccessToken, err := authClient.GetAccessToken(ctx, session.RefreshToken)
+		cancel()
+
 		if err != nil {
 			logger.Error("failed to generate access token", zap.Error(err))
-			return
+			continue
 		}
 
 		session.AccessToken = newAccessToken
 		if err := saveSession(session, sessionFile); err != nil {
 			logger.Error("failed to save session", zap.Error(err))
-			return
+			continue
 		}
 
 		logger.Info("Access token updated")
@@ -189,33 +305,101 @@ func saveSession(session *Session, sessionFile string) error {
 	return os.WriteFile(sessionFile, data, 0600)
 }
 
-func newSendMessageCmd(chatClient clients.ChatServiceClient, sessionFile string) *cobra.Command {
-	return &cobra.Command{
-		Use:   "send-message",
-		Short: "Send message to chat",
+func newConnectChatCmd(chatClient clients.ChatServiceClient, sessionFile string) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "connect-chat",
+		Short: "Connect to chat",
+		Long: `Connect to chat and start receiving messages. 
+Use Ctrl+C to disconnect from chat.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			ctx, cancel := context.WithTimeout(context.Background(), timeout)
-			defer cancel()
+			chatID, _ := cmd.Flags().GetString("chat-id")
+			username, _ := cmd.Flags().GetString("username")
 
+			logger.Info("Attempting to connect to chat...", 
+				zap.String("chat_id", chatID),
+				zap.String("username", username))
+
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel() // Гарантируем, что cancel будет вызван при выходе из функции
+
+			// Создаем канал для сигнала завершения
+			done := make(chan os.Signal, 1)
+			signal.Notify(done, os.Interrupt, syscall.SIGTERM)
+			defer signal.Stop(done) // Очищаем обработчик сигналов
+
+			// Создаем канал для ошибок
+			errChan := make(chan error, 1)
+
+			// Запускаем подключение в отдельной горутине
+			go func() {
+				errChan <- chatClient.ConnectChat(ctx, chatID, username)
+			}()
+
+			logger.Info("Successfully connected to chat. Press Ctrl+C to disconnect.", 
+				zap.String("chat_id", chatID),
+				zap.String("username", username))
+
+			// Ждем либо сигнала завершения, либо ошибки
+			select {
+			case <-done:
+				logger.Info("Disconnecting from chat",
+					zap.String("chat_id", chatID),
+					zap.String("username", username))
+				return
+			case err := <-errChan:
+				if err != nil {
+					logger.Error("Error in chat connection", 
+						zap.Error(err),
+						zap.String("chat_id", chatID),
+						zap.String("username", username))
+				}
+				return
+			}
+		},
+	}
+
+	cmd.Flags().String("chat-id", "", "Chat ID to connect to")
+	cmd.Flags().String("username", "", "Username to connect to chat")
+	cmd.MarkFlagRequired("chat-id")
+	cmd.MarkFlagRequired("username")
+
+	return cmd
+}
+
+func newSendMessageCmd(chatClient clients.ChatServiceClient, sessionFile string) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "send-message --chat-id=ID MESSAGE",
+		Short: "Send message to chat",
+		Long: `Send message to chat. The message should be the last argument:
+Example: send-message --chat-id=1 Hello, world!`,
+		Run: func(cmd *cobra.Command, args []string) {
+			chatID, _ := cmd.Flags().GetString("chat-id")
+
+			// Проверяем, что есть аргументы для сообщения
+			if len(args) == 0 {
+				logger.Error("no message provided")
+				return
+			}
+
+			// Собираем сообщение из всех оставшихся аргументов
+			message := strings.Join(args, " ")
+
+			logger.Debug("Command arguments:",
+				zap.Strings("args", args),
+				zap.String("chat_id", chatID),
+				zap.String("message", message))
+
+			// Загружаем сессию для получения access token
 			session, err := loadSession(sessionFile)
 			if err != nil {
 				logger.Error("failed to load session", zap.Error(err))
 				return
 			}
 
+			ctx, cancel := context.WithTimeout(context.Background(), timeout)
+			defer cancel()
+
 			ctx = addAccessTokenToContext(ctx, session.AccessToken)
-
-			chatID, err := cmd.Flags().GetString("chat_id")
-			if err != nil {
-				logger.Error("failed to get chat_id", zap.Error(err))
-				return
-			}
-
-			message, err := cmd.Flags().GetString("message")
-			if err != nil {
-				logger.Error("failed to get message", zap.Error(err))
-				return
-			}
 
 			err = chatClient.SendMessage(ctx, &chat.Message{
 				ChatID:   chatID,
@@ -227,13 +411,25 @@ func newSendMessageCmd(chatClient clients.ChatServiceClient, sessionFile string)
 				return
 			}
 
-			logger.Info("Message sent successfully", zap.String("chat_id", chatID))
+			logger.Info("Message sent successfully",
+				zap.String("chat_id", chatID),
+				zap.String("message", message),
+				zap.String("username", session.Username))
 		},
 	}
+
+	// Добавляем флаг chat-id перед аргументами сообщения
+	cmd.Flags().String("chat-id", "", "Chat ID to send message to")
+	cmd.MarkFlagRequired("chat-id")
+
+	return cmd
 }
 
 func addAccessTokenToContext(ctx context.Context, accessToken string) context.Context {
-	return metadata.NewOutgoingContext(ctx, metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", accessToken)))
+	authHeader := fmt.Sprintf("Bearer %s", accessToken)
+	logger.Debug("Adding auth header to context",
+		zap.String("header", authHeader))
+	return metadata.NewOutgoingContext(ctx, metadata.Pairs("authorization", authHeader))
 }
 
 func newDeleteChatCmd(chatClient clients.ChatServiceClient) *cobra.Command {
@@ -264,7 +460,7 @@ func newDeleteChatCmd(chatClient clients.ChatServiceClient) *cobra.Command {
 }
 
 func Execute() {
-	if err := rootCmd.Execute(); err != nil {
+	if err := RootCmd.Execute(); err != nil {
 		log.Fatalf("failed to execute command: %v", err)
 	}
 }

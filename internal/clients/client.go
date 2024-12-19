@@ -10,6 +10,7 @@ type ChatServiceClient interface {
 	Create(ctx context.Context, usernames []string) (string, error)
 	Delete(ctx context.Context, chatID string) error
 	SendMessage(ctx context.Context, message *chat.Message) error
+	ConnectChat(ctx context.Context, chatID string, username string) error
 }
 
 type AuthServiceClient interface {

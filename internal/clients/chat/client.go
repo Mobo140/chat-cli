@@ -2,6 +2,8 @@ package chat
 
 import (
 	"context"
+	"fmt"
+	"io"
 	"strconv"
 
 	descChat "github.com/Mobo140/chat/pkg/chat_v1"
@@ -56,7 +58,6 @@ func (c *client) SendMessage(ctx context.Context, message *Message) error {
 	id, err := strconv.ParseInt(message.ChatID, 10, 64)
 	if err != nil {
 		logger.Error("failed to parse chat ID", zap.Error(err))
-
 		return err
 	}
 
@@ -69,9 +70,35 @@ func (c *client) SendMessage(ctx context.Context, message *Message) error {
 	})
 	if err != nil {
 		logger.Error("failed to send message", zap.Error(err))
-
 		return err
 	}
 
 	return nil
 }
+
+func (c *client) ConnectChat(ctx context.Context, chatID string, username string) error {
+	stream, err := c.chatClient.ConnectChat(ctx, &descChat.ConnectChatRequest{
+		ChatId:   chatID,
+		Username: username,
+	})
+	if err != nil {
+		logger.Error("failed to connect to chat", zap.Error(err))
+		return err
+	}
+
+	for {
+		msg, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			logger.Error("error receiving message", zap.Error(err))
+			return err
+		}
+
+		fmt.Printf("\n[%s]: %s\n", msg.GetFrom(), msg.GetText())
+	}
+
+	return nil
+}
+

@@ -1,0 +1,175 @@
+{"level":"error","timestamp":"2024-12-19T16:41:03.231+0300","msg":"failed to load session","error":"unexpected end of JSON input"}
+{"level":"error","timestamp":"2024-12-19T16:41:03.231+0300","msg":"failed to load session","error":"unexpected end of JSON input"}
+{"level":"error","timestamp":"2024-12-19T17:55:41.601+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T17:55:41.602+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:01:48.730+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:01:48.731+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:02:04.129+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:02:04.129+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"info","timestamp":"2024-12-19T18:03:05.311+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T18:04:44.832+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T18:04:44.853+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T18:06:03.971+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T18:06:03.977+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T18:06:46.831+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T18:06:46.850+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T18:06:46.854+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2024-12-19T18:10:47.004+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T18:12:25.475+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T18:12:25.488+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T18:12:25.493+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2024-12-19T18:15:48.828+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T18:16:25.498+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T18:21:31.638+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T18:21:31.642+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T18:21:31.644+0300","msg":"Access token updated"}
+{"level":"error","timestamp":"2024-12-19T18:21:51.721+0300","msg":"failed to login","error":"rpc error: code = Unknown desc = failed executing code inside transaction: user not found"}
+{"level":"error","timestamp":"2024-12-19T18:21:51.721+0300","msg":"failed to login","error":"rpc error: code = Unknown desc = failed executing code inside transaction: user not found"}
+{"level":"info","timestamp":"2024-12-19T18:22:08.768+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T18:25:35.059+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T18:25:35.063+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T18:25:35.067+0300","msg":"Access token updated"}
+{"level":"error","timestamp":"2024-12-19T18:25:48.686+0300","msg":"failed to login","error":"rpc error: code = Unknown desc = failed executing code inside transaction: user not found"}
+{"level":"error","timestamp":"2024-12-19T18:25:48.686+0300","msg":"failed to login","error":"rpc error: code = Unknown desc = failed executing code inside transaction: user not found"}
+{"level":"error","timestamp":"2024-12-19T18:27:11.485+0300","msg":"failed to login","error":"rpc error: code = Unknown desc = failed executing code inside transaction: password is invalid"}
+{"level":"error","timestamp":"2024-12-19T18:27:11.487+0300","msg":"failed to login","error":"rpc error: code = Unknown desc = failed executing code inside transaction: password is invalid"}
+{"level":"error","timestamp":"2024-12-19T18:29:35.064+0300","msg":"failed to get refresh token","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:29:35.065+0300","msg":"failed to refresh token","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:32:56.598+0300","msg":"failed to send message","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:32:56.599+0300","msg":"failed to send message","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:42:17.274+0300","msg":"failed to send message","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:42:17.275+0300","msg":"failed to send message","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:42:40.596+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:42:40.596+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:00.163+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:00.163+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:16.806+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:16.807+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:18.754+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:18.754+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:19.562+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:19.563+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:20.173+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:20.173+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:20.702+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:20.702+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:21.233+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:21.233+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:21.986+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:21.986+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:22.703+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-19T18:43:22.703+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"info","timestamp":"2024-12-19T18:43:25.183+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T18:43:25.185+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T18:43:25.187+0300","msg":"Access token updated"}
+{"level":"error","timestamp":"2024-12-19T18:43:27.441+0300","msg":"failed to send message","error":"rpc error: code = Unknown desc = authorization header is not provided"}
+{"level":"error","timestamp":"2024-12-19T18:43:27.441+0300","msg":"failed to send message","error":"rpc error: code = Unknown desc = authorization header is not provided"}
+{"level":"info","timestamp":"2024-12-19T18:46:52.642+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T18:46:52.645+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T18:46:52.646+0300","msg":"Access token updated"}
+{"level":"error","timestamp":"2024-12-19T18:47:07.282+0300","msg":"failed to send message","error":"rpc error: code = Unknown desc = authorization header is not provided"}
+{"level":"error","timestamp":"2024-12-19T18:47:07.283+0300","msg":"failed to send message","error":"rpc error: code = Unknown desc = authorization header is not provided"}
+{"level":"error","timestamp":"2024-12-19T18:48:40.757+0300","msg":"failed to send message","error":"rpc error: code = Unknown desc = authorization header is not provided"}
+{"level":"error","timestamp":"2024-12-19T18:48:40.757+0300","msg":"failed to send message","error":"rpc error: code = Unknown desc = authorization header is not provided"}
+{"level":"debug","timestamp":"2024-12-19T18:56:29.271+0300","msg":"Session loaded","access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjIzMTE2MDQzMzcsInVzZXJuYW1lIjoibmFtZSIsInJvbGUiOiIwIn0.1GZLhXsf2i6DDE9kbSyi90u5_DAV-4oTrVAL4TDAjLc","username":"name"}
+{"level":"debug","timestamp":"2024-12-19T18:56:29.272+0300","msg":"Adding auth header to context","header":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjIzMTE2MDQzMzcsInVzZXJuYW1lIjoibmFtZSIsInJvbGUiOiIwIn0.1GZLhXsf2i6DDE9kbSyi90u5_DAV-4oTrVAL4TDAjLc"}
+{"level":"debug","timestamp":"2024-12-19T18:56:29.272+0300","msg":"Metadata added to context","metadata":{"authorization":["Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjIzMTE2MDQzMzcsInVzZXJuYW1lIjoibmFtZSIsInJvbGUiOiIwIn0.1GZLhXsf2i6DDE9kbSyi90u5_DAV-4oTrVAL4TDAjLc"]}}
+{"level":"error","timestamp":"2024-12-19T18:56:29.308+0300","msg":"failed to send message","error":"rpc error: code = Unknown desc = authorization header is not provided"}
+{"level":"error","timestamp":"2024-12-19T18:56:29.308+0300","msg":"failed to send message","error":"rpc error: code = Unknown desc = authorization header is not provided"}
+{"level":"debug","timestamp":"2024-12-19T18:59:43.927+0300","msg":"Session loaded","access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjIzMTE2MDQzMzcsInVzZXJuYW1lIjoibmFtZSIsInJvbGUiOiIwIn0.1GZLhXsf2i6DDE9kbSyi90u5_DAV-4oTrVAL4TDAjLc","username":"name"}
+{"level":"debug","timestamp":"2024-12-19T18:59:43.928+0300","msg":"Adding auth header to context","header":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjIzMTE2MDQzMzcsInVzZXJuYW1lIjoibmFtZSIsInJvbGUiOiIwIn0.1GZLhXsf2i6DDE9kbSyi90u5_DAV-4oTrVAL4TDAjLc"}
+{"level":"debug","timestamp":"2024-12-19T18:59:43.928+0300","msg":"Metadata added to context","metadata":{"authorization":["Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjIzMTE2MDQzMzcsInVzZXJuYW1lIjoibmFtZSIsInJvbGUiOiIwIn0.1GZLhXsf2i6DDE9kbSyi90u5_DAV-4oTrVAL4TDAjLc"]}}
+{"level":"error","timestamp":"2024-12-19T18:59:44.005+0300","msg":"failed to send message","error":"rpc error: code = NotFound desc = chat not found"}
+{"level":"error","timestamp":"2024-12-19T18:59:44.005+0300","msg":"failed to send message","error":"rpc error: code = NotFound desc = chat not found"}
+{"level":"error","timestamp":"2024-12-19T19:21:51.315+0300","msg":"failed to send message","error":"rpc error: code = NotFound desc = chat not found"}
+{"level":"error","timestamp":"2024-12-19T19:21:51.315+0300","msg":"failed to send message","error":"rpc error: code = NotFound desc = chat not found"}
+{"level":"info","timestamp":"2024-12-19T19:41:10.817+0300","msg":"Connected to chat","chat_id":"1"}
+{"level":"error","timestamp":"2024-12-19T19:41:19.391+0300","msg":"failed to send message","error":"rpc error: code = NotFound desc = chat not found"}
+{"level":"error","timestamp":"2024-12-19T19:41:19.391+0300","msg":"failed to send message","error":"rpc error: code = NotFound desc = chat not found"}
+{"level":"info","timestamp":"2024-12-19T19:44:29.703+0300","msg":"Connected to chat","chat_id":"1"}
+{"level":"info","timestamp":"2024-12-19T19:47:25.024+0300","msg":"Creating chat","usernames":["name","other_user"]}
+{"level":"info","timestamp":"2024-12-19T19:47:25.098+0300","msg":"Chat created successfully","chat_id":"29"}
+{"level":"info","timestamp":"2024-12-19T19:47:52.863+0300","msg":"Connected to chat","chat_id":"1"}
+{"level":"info","timestamp":"2024-12-19T19:49:29.578+0300","msg":"Connected to chat","chat_id":"29"}
+{"level":"info","timestamp":"2024-12-19T19:51:16.099+0300","msg":"Attempting to connect to chat...","chat_id":"29","username":"lala"}
+{"level":"info","timestamp":"2024-12-19T19:51:16.146+0300","msg":"Successfully connected to chat","chat_id":"29","username":"lala"}
+{"level":"info","timestamp":"2024-12-19T19:54:05.213+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T19:54:05.217+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T19:54:05.219+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2024-12-19T19:54:25.712+0300","msg":"Attempting to connect to chat...","chat_id":"29","username":"name"}
+{"level":"info","timestamp":"2024-12-19T19:54:25.749+0300","msg":"Successfully connected to chat","chat_id":"29","username":"name"}
+{"level":"info","timestamp":"2024-12-19T19:55:16.513+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T19:55:16.516+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T19:55:16.518+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2024-12-19T19:55:29.340+0300","msg":"Message sent successfully","chat_id":"29","message":"\"Hello"}
+{"level":"info","timestamp":"2024-12-19T19:58:00.476+0300","msg":"Disconnecting from chat","chat_id":"29","username":"lala"}
+{"level":"info","timestamp":"2024-12-19T19:58:05.237+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T19:58:06.213+0300","msg":"Attempting to connect to chat...","chat_id":"29","username":"lala"}
+{"level":"info","timestamp":"2024-12-19T19:58:06.214+0300","msg":"Successfully connected to chat","chat_id":"29","username":"lala"}
+{"level":"info","timestamp":"2024-12-19T19:58:08.012+0300","msg":"Disconnecting from chat","chat_id":"29","username":"lala"}
+{"level":"info","timestamp":"2024-12-19T19:58:22.003+0300","msg":"Disconnecting from chat","chat_id":"29","username":"name"}
+{"level":"info","timestamp":"2024-12-19T20:04:00.500+0300","msg":"Attempting to connect to chat...","chat_id":"29","username":"name"}
+{"level":"error","timestamp":"2024-12-19T20:04:53.290+0300","msg":"failed to login","error":"rpc error: code = Unknown desc = failed executing code inside transaction: user not found"}
+{"level":"error","timestamp":"2024-12-19T20:04:53.291+0300","msg":"failed to login","error":"rpc error: code = Unknown desc = failed executing code inside transaction: user not found"}
+{"level":"info","timestamp":"2024-12-19T20:05:30.783+0300","msg":"Attempting to connect to chat...","chat_id":"29","username":"other_user"}
+{"level":"info","timestamp":"2024-12-19T20:06:00.034+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T20:06:00.036+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:06:00.038+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2024-12-19T20:06:21.241+0300","msg":"Message sent successfully","chat_id":"29","message":"\"Hello"}
+{"level":"info","timestamp":"2024-12-19T20:10:00.050+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:11:37.588+0300","msg":"Logged in successfully","username":"lalala"}
+{"level":"info","timestamp":"2024-12-19T20:11:37.591+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:11:37.593+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2024-12-19T20:11:57.022+0300","msg":"Attempting to connect to chat...","chat_id":"29","username":"lalala"}
+{"level":"error","timestamp":"2024-12-19T20:13:27.758+0300","msg":"failed to login","error":"rpc error: code = Unknown desc = failed executing code inside transaction: user not found"}
+{"level":"error","timestamp":"2024-12-19T20:13:27.758+0300","msg":"failed to login","error":"rpc error: code = Unknown desc = failed executing code inside transaction: user not found"}
+{"level":"info","timestamp":"2024-12-19T20:13:51.696+0300","msg":"Logged in successfully","username":"lalala"}
+{"level":"info","timestamp":"2024-12-19T20:13:51.698+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:13:51.700+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2024-12-19T20:14:00.061+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:14:35.984+0300","msg":"Message sent successfully","chat_id":"29","message":"\"Hello"}
+{"level":"info","timestamp":"2024-12-19T20:14:58.446+0300","msg":"Message sent successfully","chat_id":"29","message":"\"Hello"}
+{"level":"info","timestamp":"2024-12-19T20:15:37.607+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:16:31.789+0300","msg":"Logged in successfully","username":"lalala"}
+{"level":"info","timestamp":"2024-12-19T20:16:31.792+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:16:31.794+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2024-12-19T20:16:54.412+0300","msg":"Attempting to connect to chat...","chat_id":"29","username":"lalala"}
+{"level":"info","timestamp":"2024-12-19T20:17:24.530+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T20:17:24.533+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:17:24.535+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2024-12-19T20:17:40.993+0300","msg":"Attempting to connect to chat...","chat_id":"29","username":"name"}
+{"level":"info","timestamp":"2024-12-19T20:19:50.540+0300","msg":"Message sent successfully","chat_id":"29","message":"\"Hello"}
+{"level":"info","timestamp":"2024-12-19T20:20:31.806+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:21:24.621+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:21:44.939+0300","msg":"Message sent successfully","chat_id":"29","message":"\"Hello_from_name_to_lalala!\""}
+{"level":"info","timestamp":"2024-12-19T20:22:40.961+0300","msg":"Logged in successfully","username":"lalala"}
+{"level":"info","timestamp":"2024-12-19T20:22:40.963+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:22:40.965+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2024-12-19T20:23:08.589+0300","msg":"Message sent successfully","chat_id":"29","message":"\"Hello_from_lalala_to_name!\""}
+{"level":"info","timestamp":"2024-12-19T20:23:45.547+0300","msg":"Message sent successfully","chat_id":"29","message":"\"Hello"}
+{"level":"info","timestamp":"2024-12-19T20:24:31.825+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:25:24.633+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:25:52.338+0300","msg":"Message sent successfully","chat_id":"29","message":"Hello","username":"lalala"}
+{"level":"info","timestamp":"2024-12-19T20:26:09.851+0300","msg":"Message sent successfully","chat_id":"29","message":"Hello","username":"lalala"}
+{"level":"info","timestamp":"2024-12-19T20:26:24.431+0300","msg":"Message sent successfully","chat_id":"29","message":"Hello","username":"lalala"}
+{"level":"info","timestamp":"2024-12-19T20:26:39.875+0300","msg":"Message sent successfully","chat_id":"29","message":"Hello","username":"lalala"}
+{"level":"info","timestamp":"2024-12-19T20:26:40.972+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:27:34.383+0300","msg":"Message sent successfully","chat_id":"29","message":"Hello from name to lalala!","username":"lalala"}
+{"level":"info","timestamp":"2024-12-19T20:28:09.761+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-19T20:28:09.764+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:28:09.765+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2024-12-19T20:28:31.837+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:28:56.733+0300","msg":"Message sent successfully","chat_id":"29","message":"Hello","username":"name"}
+{"level":"info","timestamp":"2024-12-19T20:29:24.643+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:31:51.374+0300","msg":"Message sent successfully","chat_id":"29","message":"Hello from name to lalala","username":"name"}
+{"level":"info","timestamp":"2024-12-19T20:32:00.715+0300","msg":"Message sent successfully","chat_id":"29","message":"Hello from name to lalala!","username":"name"}
+{"level":"info","timestamp":"2024-12-19T20:32:05.009+0300","msg":"Message sent successfully","chat_id":"29","message":"Hello from name tsadadsddadsd!","username":"name"}
+{"level":"info","timestamp":"2024-12-19T20:32:32.088+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:33:24.658+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:37:15.368+0300","msg":"Attempting to connect to chat...","chat_id":"29","username":"lalala"}
+{"level":"info","timestamp":"2024-12-19T20:37:15.371+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"29","username":"lalala"}
+{"level":"info","timestamp":"2024-12-19T20:37:16.867+0300","msg":"Disconnecting from chat","chat_id":"29","username":"lalala"}
+{"level":"error","timestamp":"2024-12-19T20:37:16.868+0300","msg":"error receiving message","error":"rpc error: code = Canceled desc = context canceled"}
+{"level":"info","timestamp":"2024-12-19T20:37:24.677+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-19T20:38:54.191+0300","msg":"Attempting to connect to chat...","chat_id":"29","username":"lalala"}
+{"level":"info","timestamp":"2024-12-19T20:38:54.193+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"29","username":"lalala"}

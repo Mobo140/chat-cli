@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -16,24 +17,38 @@ import (
 	"github.com/Mobo140/chat-cli/internal/config/env"
 	descChat "github.com/Mobo140/chat/pkg/chat_v1"
 	"github.com/Mobo140/platform_common/pkg/closer"
+	"github.com/Mobo140/platform_common/pkg/logger"
 	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
 	"github.com/opentracing/opentracing-go"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
-var configPath string
+var (
+	logsMaxSize    = 10
+	logsMaxBackups = 3
+	logsMaxAge     = 7
+)
 
+// App структура для хранения конфигурации и клиентов
 type App struct {
-	chatClient  clients.ChatServiceClient
-	authClient  clients.AuthServiceClient
 	configPath  string
 	sessionFile string
+	loggerLevel string
+	chatClient  clients.ChatServiceClient
+	authClient  clients.AuthServiceClient
 }
 
 func main() {
-	ctx := context.Background()
+	// Парсим флаги перед использованием
+	if err := root.RootCmd.ParseFlags(os.Args[1:]); err != nil {
+		log.Fatalf("failed to parse flags: %v", err)
+	}
 
+	ctx := context.Background()
 	currentDir, err := os.Getwd()
 	if err != nil {
 		log.Fatalf("failed to get current directory: %v", err)
@@ -41,48 +56,114 @@ func main() {
 
 	sessionFile := filepath.Join(currentDir, ".chat-cli-session")
 
-	app, err := NewApp(ctx, configPath, sessionFile)
+	// Используем root.ConfigPath вместо configPath
+	app, err := NewApp(ctx, root.ConfigPath, sessionFile)
 	if err != nil {
 		log.Fatalf("failed to initialize app: %v", err)
 	}
 
-	root.InitCommands(app.chatClient, app.authClient, app.sessionFile)
+	// Создаем каналы для синхронизации
+	loginDoneChan := make(chan struct{})
+	refreshTokenDoneChan := make(chan struct{})
 
-	root.Execute()
+	// Инициализация команд
+	root.InitCommands(app.chatClient, app.authClient, app.sessionFile, loginDoneChan)
 
+	// Запускаем горутины для обновления токенов в отдельной группе
 	var wg sync.WaitGroup
-
 	wg.Add(2)
 
 	go func() {
 		defer wg.Done()
-		root.AccessTokenCron(app.authClient, app.sessionFile)
+		root.RefreshTokenCron(app.authClient, app.sessionFile, loginDoneChan, refreshTokenDoneChan)
 	}()
 
 	go func() {
 		defer wg.Done()
-		root.RefreshTokenCron(app.authClient, app.sessionFile)
+		root.AccessTokenCron(app.authClient, app.sessionFile, refreshTokenDoneChan)
 	}()
 
+	// Запускаем REPL в основной горутине
+	if err := root.RootCmd.Execute(); err != nil {
+		log.Fatalf("failed to execute root command: %v", err)
+	}
+
+	// Ждем завершения горутин при выходе
 	wg.Wait()
 }
 
+// NewApp создает новый экземпляр приложения
 func NewApp(ctx context.Context, configPath string, sessionFile string) (*App, error) {
-	a := &App{configPath: configPath, sessionFile: sessionFile}
+	app := &App{
+		configPath:  configPath,
+		sessionFile: sessionFile,
+		loggerLevel: root.LogLevel,
+	}
+
+	err := config.Load(configPath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to load config: %v", err)
+	}
+
+	err = app.initLogger(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to init logger: %v", err)
+	}
 
 	chatClient, err := initChatClient(ctx)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to init chat client: %v", err)
 	}
-	a.chatClient = chatClient
+	app.chatClient = chatClient
 
 	authClient, err := initAuthClient(ctx)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to init auth client: %v", err)
 	}
-	a.authClient = authClient
+	app.authClient = authClient
 
-	return a, nil
+	return app, nil
+}
+
+// initLogger инициализирует логгер
+func (a *App) initLogger(_ context.Context) error {
+	logger.Init(getCore(getAtomicLevel(a.loggerLevel)))
+	return nil
+}
+
+func getCore(level zap.AtomicLevel) zapcore.Core {
+	stdout := zapcore.AddSync(os.Stdout)
+
+	file := zapcore.AddSync(&lumberjack.Logger{
+		Filename:   "logs/app.log",
+		MaxSize:    logsMaxSize, // megabytes
+		MaxBackups: logsMaxBackups,
+		MaxAge:     logsMaxAge, // days
+	})
+
+	productionCfg := zap.NewProductionEncoderConfig()
+	productionCfg.TimeKey = "timestamp"
+	productionCfg.EncodeTime = zapcore.ISO8601TimeEncoder
+
+	developmentCfg := zap.NewDevelopmentEncoderConfig()
+	developmentCfg.EncodeLevel = zapcore.CapitalColorLevelEncoder
+
+	consoleEncoder := zapcore.NewConsoleEncoder(developmentCfg)
+	fileEncoder := zapcore.NewJSONEncoder(productionCfg)
+
+	return zapcore.NewTee(
+		zapcore.NewCore(consoleEncoder, stdout, level),
+		zapcore.NewCore(fileEncoder, file, level),
+	)
+}
+
+func getAtomicLevel(logLevel string) zap.AtomicLevel {
+	var level zapcore.Level
+	if err := level.Set(logLevel); err != nil {
+		log.Fatalf("failed to set log level: %v", err)
+	}
+
+	return zap.NewAtomicLevelAt(level)
 }
 
 func initChatClient(_ context.Context) (clients.ChatServiceClient, error) {
