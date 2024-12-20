@@ -173,3 +173,9 @@
 {"level":"info","timestamp":"2024-12-19T20:37:24.677+0300","msg":"Refresh token updated"}
 {"level":"info","timestamp":"2024-12-19T20:38:54.191+0300","msg":"Attempting to connect to chat...","chat_id":"29","username":"lalala"}
 {"level":"info","timestamp":"2024-12-19T20:38:54.193+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"29","username":"lalala"}
+{"level":"error","timestamp":"2024-12-20T10:15:45.151+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"error","timestamp":"2024-12-20T10:15:45.152+0300","msg":"failed to login","error":"rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial tcp [::1]:8080: connect: connection refused\""}
+{"level":"info","timestamp":"2024-12-20T10:16:32.690+0300","msg":"Logged in successfully","username":"name"}
+{"level":"info","timestamp":"2024-12-20T10:16:32.693+0300","msg":"Refresh token updated"}
+{"level":"info","timestamp":"2024-12-20T10:16:32.695+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2024-12-20T10:16:57.881+0300","msg":"Chat created successfully","chat_id":"30","usernames":["name","lalala"]}

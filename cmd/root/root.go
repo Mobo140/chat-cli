@@ -109,7 +109,7 @@ func InitCommands(chatClient clients.ChatServiceClient,
 	loginDoneCh chan struct{},
 ) {
 	loginCmd := newLoginCmd(authClient, sessionFile, loginDoneCh)
-	createChatCmd := newCreateChatCmd(chatClient)
+	createChatCmd := newCreateChatCmd(chatClient, sessionFile)
 	deleteChatCmd := newDeleteChatCmd(chatClient)
 	sendMessageCmd := newSendMessageCmd(chatClient, sessionFile)
 	connectChatCmd := newConnectChatCmd(chatClient)
@@ -121,17 +121,35 @@ func InitCommands(chatClient clients.ChatServiceClient,
 	RootCmd.AddCommand(connectChatCmd)
 }
 
-func newCreateChatCmd(chatClient clients.ChatServiceClient) *cobra.Command {
+func newCreateChatCmd(chatClient clients.ChatServiceClient, sessionFile string) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-chat",
+		Use:   "create-chat --username user1 [user2 user3...]",
 		Short: "Create a new chat",
+		Long: `Create a new chat with specified users.
+Examples: 
+  create-chat --username john              # Create personal chat
+  create-chat --username john alice bob    # Create group chat`,
 		Run: func(cmd *cobra.Command, args []string) {
-			usernames, _ := cmd.Flags().GetStringArray("username")
+			username, _ := cmd.Flags().GetString("username")
+			
+			// Создаем список пользователей, начиная с указанного в --username
+			usernames := []string{username}
+			// Добавляем всех остальных пользователей из аргументов
+			usernames = append(usernames, args...)
+
+			logger.Debug("Creating chat with users", zap.Strings("usernames", usernames))
+
+			// Загружаем сессию для получения access token
+			session, err := loadSession(sessionFile)
+			if err != nil {
+				logger.Error("failed to load session", zap.Error(err))
+				return
+			}
 
 			ctx, cancel := context.WithTimeout(context.Background(), timeout)
 			defer cancel()
 
-			logger.Info("Creating chat", zap.Any("usernames", usernames))
+			ctx = addAccessTokenToContext(ctx, session.AccessToken)
 
 			chatID, err := chatClient.Create(ctx, usernames)
 			if err != nil {
@@ -139,11 +157,13 @@ func newCreateChatCmd(chatClient clients.ChatServiceClient) *cobra.Command {
 				return
 			}
 
-			logger.Info("Chat created successfully", zap.String("chat_id", chatID))
+			logger.Info("Chat created successfully", 
+				zap.String("chat_id", chatID),
+				zap.Strings("usernames", usernames))
 		},
 	}
 
-	cmd.Flags().StringArray("username", []string{}, "Usernames to add to chat (can be specified multiple times)")
+	cmd.Flags().String("username", "", "First username (required)")
 	cmd.MarkFlagRequired("username")
 
 	return cmd
