@@ -39,32 +39,43 @@ go build -o chat-cli main.go
 ### Основные команды
 
 #### 1. Вход в систему
+
 ```bash
 login --username=username --password=password
 ```
+
 Аутентификация пользователя в системе. После успешного входа создается сессия с JWT токенами.
 
 #### 2. Создание чата
+
 ```bash
-create-chat --username user1 [user2 user3...]
+create-chat --username user1 user2 user3...
 ```
+
 Создает новый чат с указанными пользователями.
+
 - Для личного чата: `create-chat --username john`
 - Для группового чата: `create-chat --username john alice bob`
 
 #### 3. Подключение к чату
+
 ```bash
 connect-chat --chat-id=ID --username=username
 ```
+
 Подключается к чату и начинает получать сообщения в реальном времени.
+
 - Используйте `Ctrl+C` для отключения от чата
 - Все новые сообщения будут отображаться в консоли
 
 #### 4. Отправка сообщений
+
 ```bash
 send-message --chat-id=ID Your message text here
 ```
+
 Отправляет сообщение в указанный чат.
+
 - Не требует кавычек для сообщений с пробелами
 - Поддерживает многострочные сообщения
 
@@ -78,6 +89,7 @@ send-message --chat-id=ID Your message text here
 ### Примеры использования
 
 1. Создание и подключение к чату:
+
 ```bash
 # Создаем новый чат
 create-chat --username john alice
@@ -88,6 +100,7 @@ connect-chat --chat-id=29 --username=john
 ```
 
 2. Отправка сообщений:
+
 ```bash
 # Простое сообщение
 send-message --chat-id=29 Hello!
@@ -101,19 +114,14 @@ send-message --chat-id=29 Hello, how are you today?
 ### Автоматическое обновление
 
 Приложение использует два типа JWT токенов:
-- `access_token` - короткоживущий токен (24 часа)
-- `refresh_token` - долгоживущий токен (30 дней)
+
+- `access_token` - короткоживущий токен (15 минут)
+- `refresh_token` - долгоживущий токен (24 часа)
 
 #### Процесс обновления
 
-Токен обновляется автоматически за 1 час до истечения срока действия:
-
-```go
-// Если до истечения токена осталось меньше часа
-if time.Until(expirationTime) < time.Hour {
-    // Запускаем процесс обновления
-}
-```
+Access token обновляется автоматически за минуту до истечения срока действия
+Refresh token обновляется автоматически за час до истечения срока действия
 
 #### Как это работает
 
@@ -127,6 +135,7 @@ if time.Until(expirationTime) < time.Hour {
 #### Ручное обновление
 
 В случае необходимости токены можно обновить вручную через повторную аутентификацию:
+
 ```bash
 login --username=your_username --password=your_password
 ```
