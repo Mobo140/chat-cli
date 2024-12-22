@@ -8,6 +8,7 @@ import (
 
 	descChat "github.com/Mobo140/chat/pkg/chat_v1"
 	"github.com/Mobo140/platform_common/pkg/logger"
+	"github.com/opentracing/opentracing-go"
 	"go.uber.org/zap"
 )
 
@@ -55,6 +56,9 @@ func (c *client) Delete(ctx context.Context, chatID string) error {
 }
 
 func (c *client) SendMessage(ctx context.Context, message *Message) error {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "SendMessage")
+	defer span.Finish()
+
 	id, err := strconv.ParseInt(message.ChatID, 10, 64)
 	if err != nil {
 		logger.Error("failed to parse chat ID", zap.Error(err))
@@ -101,4 +105,3 @@ func (c *client) ConnectChat(ctx context.Context, chatID string, username string
 
 	return nil
 }
-

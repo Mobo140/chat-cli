@@ -18,6 +18,7 @@ import (
 	descChat "github.com/Mobo140/chat/pkg/chat_v1"
 	"github.com/Mobo140/platform_common/pkg/closer"
 	"github.com/Mobo140/platform_common/pkg/logger"
+	"github.com/Mobo140/platform_common/pkg/tracing"
 	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
 	"github.com/opentracing/opentracing-go"
 	"go.uber.org/zap"
@@ -28,9 +29,10 @@ import (
 )
 
 var (
-	logsMaxSize    = 10
-	logsMaxBackups = 3
-	logsMaxAge     = 7
+	logsMaxSize        = 10
+	logsMaxBackups     = 3
+	logsMaxAge         = 7
+	chatCliServiceName = "chat-cli"
 )
 
 // App структура для хранения конфигурации и клиентов
@@ -108,6 +110,11 @@ func NewApp(ctx context.Context, configPath string, sessionFile string) (*App, e
 	err = app.initLogger(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to init logger: %v", err)
+	}
+
+	err = initTracer()
+	if err != nil {
+		return nil, fmt.Errorf("failed to init tracer: %v", err)
 	}
 
 	chatClient, err := initChatClient(ctx)
@@ -227,6 +234,21 @@ func AuthClientConfig() config.AuthClientConfig {
 	cfg, err := env.NewAuthClientConfig()
 	if err != nil {
 		log.Fatalf("failed to load auth client config: %v", err)
+	}
+
+	return cfg
+}
+
+func initTracer() error {
+	tracing.Init(logger.Logger(), chatCliServiceName, JaegerConfig().Address())
+
+	return nil
+}
+
+func JaegerConfig() config.JaegerConfig {
+	cfg, err := env.NewJaegerConfig()
+	if err != nil {
+		log.Fatalf("failed to load jaeger config: %v", err)
 	}
 
 	return cfg
