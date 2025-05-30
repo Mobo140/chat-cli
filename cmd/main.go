@@ -174,7 +174,7 @@ func getAtomicLevel(logLevel string) zap.AtomicLevel {
 }
 
 func initChatClient(_ context.Context) (clients.ChatServiceClient, error) {
-	creds, err := credentials.NewClientTLSFromFile("../chat.pem", "")
+	creds, err := credentials.NewClientTLSFromFile("secure/chat.pem", "")
 	if err != nil {
 		log.Fatalf("failed to load TLS keys for chat client: %v", err)
 		return nil, err
@@ -207,7 +207,7 @@ func ChatClientConfig() config.ChatClientConfig {
 }
 
 func initAuthClient(_ context.Context) (clients.AuthServiceClient, error) {
-	creds, err := credentials.NewClientTLSFromFile("../auth.pem", "")
+	creds, err := credentials.NewClientTLSFromFile("secure/auth.pem", "")
 	if err != nil {
 		log.Fatalf("failed to load TLS keys for auth client: %v", err)
 		return nil, err

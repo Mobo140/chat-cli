@@ -23,7 +23,7 @@ import (
 const (
 	refreshTokenCronInterval = 23 * time.Hour
 	accessTokenCronInterval  = 14 * time.Minute
-	timeout                  = 5 * time.Second
+	timeout                  = 20 * time.Second
 )
 
 var (

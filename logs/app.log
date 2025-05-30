@@ -1,0 +1,115 @@
+{"level":"error","timestamp":"2025-05-30T16:01:23.227+0300","msg":"failed to login","error":"rpc error: code = DeadlineExceeded desc = context deadline exceeded"}
+{"level":"error","timestamp":"2025-05-30T16:01:23.227+0300","msg":"failed to login","error":"rpc error: code = DeadlineExceeded desc = context deadline exceeded"}
+{"level":"info","timestamp":"2025-05-30T16:07:05.490+0300","msg":"Creating chat","usernames":["lalala"]}
+{"level":"error","timestamp":"2025-05-30T16:07:10.491+0300","msg":"failed to create chat","error":"rpc error: code = DeadlineExceeded desc = context deadline exceeded"}
+{"level":"error","timestamp":"2025-05-30T16:07:10.491+0300","msg":"failed to create chat","error":"rpc error: code = DeadlineExceeded desc = context deadline exceeded"}
+{"level":"info","timestamp":"2025-05-30T16:08:54.697+0300","msg":"Creating chat","usernames":["lalala","lalala"]}
+{"level":"info","timestamp":"2025-05-30T16:08:54.785+0300","msg":"Chat created successfully","chat_id":"1"}
+{"level":"error","timestamp":"2025-05-30T16:09:06.545+0300","msg":"failed to login","error":"rpc error: code = Unknown desc = failed executing code inside transaction: user not found"}
+{"level":"error","timestamp":"2025-05-30T16:09:06.545+0300","msg":"failed to login","error":"rpc error: code = Unknown desc = failed executing code inside transaction: user not found"}
+{"level":"info","timestamp":"2025-05-30T16:16:31.973+0300","msg":"Logged in successfully","username":"Nikita"}
+{"level":"debug","timestamp":"2025-05-30T16:16:31.973+0300","msg":"Sent signal about new login"}
+{"level":"info","timestamp":"2025-05-30T16:16:31.976+0300","msg":"Refresh token updated"}
+{"level":"debug","timestamp":"2025-05-30T16:16:31.976+0300","msg":"Sent signal to start access token updates"}
+{"level":"info","timestamp":"2025-05-30T16:16:31.979+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2025-05-30T16:18:55.225+0300","msg":"Creating chat","usernames":["lalala","lalala","Nikita"]}
+{"level":"info","timestamp":"2025-05-30T16:18:55.238+0300","msg":"Chat created successfully","chat_id":"2"}
+{"level":"info","timestamp":"2025-05-30T16:21:03.222+0300","msg":"Creating chat","usernames":["lalala","lalala","Nikita","Nikita"]}
+{"level":"info","timestamp":"2025-05-30T16:21:03.233+0300","msg":"Chat created successfully","chat_id":"3"}
+{"level":"info","timestamp":"2025-05-30T16:21:28.156+0300","msg":"Attempting to connect to chat...","chat_id":"3","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T16:21:28.156+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"3","username":"Nikita"}
+:48.788+0300","msg":"Sent signal about new login"}
+{"level":"info","timestamp":"2025-05-30T16:20:48.791+0300","msg":"Refresh token updated"}
+{"level":"debug","timestamp":"2025-05-30T16:20:48.791+0300","msg":"Sent signal to start access token updates"}
+{"level":"info","timestamp":"2025-05-30T16:20:48.793+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2025-05-30T16:21:49.119+0300","msg":"Attempting to connect to chat...","chat_id":"3","username":"Nikolay"}
+{"level":"info","timestamp":"2025-05-30T16:21:49.119+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"3","username":"Nikolay"}
+{"level":"info","timestamp":"2025-05-30T16:22:54.830+0300","msg":"Attempting to connect to chat...","chat_id":"3","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T16:22:54.831+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"3","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T16:23:55.155+0300","msg":"Logged in successfully","username":"Nikita"}
+{"level":"debug","timestamp":"2025-05-30T16:23:55.155+0300","msg":"Sent signal about new login"}
+{"level":"info","timestamp":"2025-05-30T16:23:55.158+0300","msg":"Refresh token updated"}
+{"level":"debug","timestamp":"2025-05-30T16:23:55.158+0300","msg":"Sent signal to start access token updates"}
+{"level":"info","timestamp":"2025-05-30T16:23:55.161+0300","msg":"Access token updated"}
+{"level":"debug","timestamp":"2025-05-30T16:24:14.243+0300","msg":"Command arguments:","args":["Hello,","Nikolay!"],"chat_id":"3","message":"Hello, Nikolay!"}
+{"level":"debug","timestamp":"2025-05-30T16:24:14.244+0300","msg":"Adding auth header to context","header":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjgxMjg3MDc2ODcsInVzZXJuYW1lIjoiTmlraXRhIiwicm9sZSI6IjEifQ.5NIhVkInw5OIXjk_u43kRlMWqIOcSg5Ov8WwQGjXRqA"}
+{"level":"info","timestamp":"2025-05-30T16:24:14.476+0300","msg":"Message sent successfully","chat_id":"3","message":"Hello, Nikolay!","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T16:24:39.085+0300","msg":"Attempting to connect to chat...","chat_id":"3","username":"Nikolay"}
+{"level":"info","timestamp":"2025-05-30T16:24:39.087+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"3","username":"Nikolay"}
+{"level":"debug","timestamp":"2025-05-30T16:24:52.306+0300","msg":"Command arguments:","args":["Hello,","Nikolay!"],"chat_id":"3","message":"Hello, Nikolay!"}
+{"level":"debug","timestamp":"2025-05-30T16:24:52.307+0300","msg":"Adding auth header to context","header":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjgxMjg3MDc2ODcsInVzZXJuYW1lIjoiTmlraXRhIiwicm9sZSI6IjEifQ.5NIhVkInw5OIXjk_u43kRlMWqIOcSg5Ov8WwQGjXRqA"}
+{"level":"info","timestamp":"2025-05-30T16:24:52.319+0300","msg":"Message sent successfully","chat_id":"3","message":"Hello, Nikolay!","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T16:27:52.506+0300","msg":"Logged in successfully","username":"Nikolay"}
+{"level":"debug","timestamp":"2025-05-30T16:27:52.506+0300","msg":"Sent signal about new login"}
+{"level":"info","timestamp":"2025-05-30T16:27:52.509+0300","msg":"Refresh token updated"}
+{"level":"debug","timestamp":"2025-05-30T16:27:52.509+0300","msg":"Sent signal to start access token updates"}
+{"level":"info","timestamp":"2025-05-30T16:27:52.512+0300","msg":"Access token updated"}
+{"level":"debug","timestamp":"2025-05-30T16:28:09.698+0300","msg":"Command arguments:","args":["Hello,","Nikita!"],"chat_id":"3","message":"Hello, Nikita!"}
+{"level":"debug","timestamp":"2025-05-30T16:28:09.700+0300","msg":"Adding auth header to context","header":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjgxMjg3MDc5MjQsInVzZXJuYW1lIjoiTmlrb2xheSIsInJvbGUiOiIwIn0.w1Kih1__PN8PBih7OCa1opjBgnosL57aPPdnWhJIJkM"}
+{"level":"info","timestamp":"2025-05-30T16:28:09.754+0300","msg":"Message sent successfully","chat_id":"3","message":"Hello, Nikita!","username":"Nikolay"}
+{"level":"info","timestamp":"2025-05-30T16:28:43.075+0300","msg":"Attempting to connect to chat...","chat_id":"3","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T16:28:43.075+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"3","username":"Nikita"}
+{"level":"debug","timestamp":"2025-05-30T16:29:03.799+0300","msg":"Command arguments:","args":["Hello,","Nikolay!"],"chat_id":"3","message":"Hello, Nikolay!"}
+{"level":"debug","timestamp":"2025-05-30T16:29:03.800+0300","msg":"Adding auth header to context","header":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjgxMjg3MDc5MjQsInVzZXJuYW1lIjoiTmlrb2xheSIsInJvbGUiOiIwIn0.w1Kih1__PN8PBih7OCa1opjBgnosL57aPPdnWhJIJkM"}
+{"level":"info","timestamp":"2025-05-30T16:29:03.813+0300","msg":"Message sent successfully","chat_id":"3","message":"Hello, Nikolay!","username":"Nikolay"}
+{"level":"debug","timestamp":"2025-05-30T16:29:25.995+0300","msg":"Command arguments:","args":["Hello,","Nikita!"],"chat_id":"3","message":"Hello, Nikita!"}
+{"level":"debug","timestamp":"2025-05-30T16:29:25.997+0300","msg":"Adding auth header to context","header":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjgxMjg3MDc5MjQsInVzZXJuYW1lIjoiTmlrb2xheSIsInJvbGUiOiIwIn0.w1Kih1__PN8PBih7OCa1opjBgnosL57aPPdnWhJIJkM"}
+{"level":"info","timestamp":"2025-05-30T16:29:26.007+0300","msg":"Message sent successfully","chat_id":"3","message":"Hello, Nikita!","username":"Nikolay"}
+{"level":"debug","timestamp":"2025-05-30T16:30:19.431+0300","msg":"Command arguments:","args":["Hello,","Nikolay!"],"chat_id":"3","message":"Hello, Nikolay!"}
+{"level":"debug","timestamp":"2025-05-30T16:30:19.433+0300","msg":"Adding auth header to context","header":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjgxMjg3MDc5MjQsInVzZXJuYW1lIjoiTmlrb2xheSIsInJvbGUiOiIwIn0.w1Kih1__PN8PBih7OCa1opjBgnosL57aPPdnWhJIJkM"}
+{"level":"info","timestamp":"2025-05-30T16:30:19.449+0300","msg":"Message sent successfully","chat_id":"3","message":"Hello, Nikolay!","username":"Nikolay"}
+{"level":"info","timestamp":"2025-05-30T16:37:55.166+0300","msg":"Access token updated"}
+{"level":"error","timestamp":"2025-05-30T16:39:19.607+0300","msg":"error receiving message","error":"rpc error: code = Unavailable desc = error reading from server: EOF"}
+{"level":"error","timestamp":"2025-05-30T16:39:19.607+0300","msg":"error receiving message","error":"rpc error: code = Unavailable desc = error reading from server: EOF"}
+{"level":"error","timestamp":"2025-05-30T16:39:19.608+0300","msg":"Error in chat connection","error":"rpc error: code = Unavailable desc = error reading from server: EOF","chat_id":"3","username":"Nikita"}
+{"level":"error","timestamp":"2025-05-30T16:39:19.608+0300","msg":"Error in chat connection","error":"rpc error: code = Unavailable desc = error reading from server: EOF","chat_id":"3","username":"Nikolay"}
+{"level":"info","timestamp":"2025-05-30T16:39:45.063+0300","msg":"Attempting to connect to chat...","chat_id":"3","username":"Nikolay"}
+{"level":"info","timestamp":"2025-05-30T16:39:45.064+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"3","username":"Nikolay"}
+{"level":"error","timestamp":"2025-05-30T16:39:45.095+0300","msg":"error receiving message","error":"rpc error: code = NotFound desc = chat not found"}
+{"level":"error","timestamp":"2025-05-30T16:39:45.095+0300","msg":"Error in chat connection","error":"rpc error: code = NotFound desc = chat not found","chat_id":"3","username":"Nikolay"}
+{"level":"info","timestamp":"2025-05-30T16:41:24.381+0300","msg":"Creating chat","usernames":["Nikita"]}
+{"level":"info","timestamp":"2025-05-30T16:41:34.455+0300","msg":"Chat created successfully","chat_id":"4"}
+{"level":"info","timestamp":"2025-05-30T16:41:52.516+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2025-05-30T16:51:55.145+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2025-05-30T16:55:52.494+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2025-05-30T16:56:56.695+0300","msg":"Attempting to connect to chat...","chat_id":"3","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T16:56:56.696+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"3","username":"Nikita"}
+{"level":"error","timestamp":"2025-05-30T16:56:56.699+0300","msg":"error receiving message","error":"rpc error: code = NotFound desc = chat not found"}
+{"level":"error","timestamp":"2025-05-30T16:56:56.699+0300","msg":"Error in chat connection","error":"rpc error: code = NotFound desc = chat not found","chat_id":"3","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T17:02:17.333+0300","msg":"Attempting to connect to chat...","chat_id":"3","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T17:02:17.334+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"3","username":"Nikita"}
+{"level":"error","timestamp":"2025-05-30T17:02:17.336+0300","msg":"error receiving message","error":"rpc error: code = NotFound desc = chat not found"}
+{"level":"error","timestamp":"2025-05-30T17:02:17.336+0300","msg":"Error in chat connection","error":"rpc error: code = NotFound desc = chat not found","chat_id":"3","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T17:05:55.165+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2025-05-30T17:09:40.105+0300","msg":"Creating chat","usernames":["Nikita"]}
+{"level":"info","timestamp":"2025-05-30T17:09:50.195+0300","msg":"Chat created successfully","chat_id":"5"}
+{"level":"info","timestamp":"2025-05-30T17:09:52.546+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2025-05-30T17:12:48.652+0300","msg":"Attempting to connect to chat...","chat_id":"3","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T17:12:48.653+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"3","username":"Nikita"}
+{"level":"error","timestamp":"2025-05-30T17:12:48.668+0300","msg":"error receiving message","error":"rpc error: code = NotFound desc = chat not found"}
+{"level":"error","timestamp":"2025-05-30T17:12:48.668+0300","msg":"Error in chat connection","error":"rpc error: code = NotFound desc = chat not found","chat_id":"3","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T17:15:43.106+0300","msg":"Attempting to connect to chat...","chat_id":"3","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T17:15:43.108+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"3","username":"Nikita"}
+{"level":"error","timestamp":"2025-05-30T17:15:43.130+0300","msg":"error receiving message","error":"rpc error: code = NotFound desc = chat not found"}
+{"level":"error","timestamp":"2025-05-30T17:15:43.130+0300","msg":"Error in chat connection","error":"rpc error: code = NotFound desc = chat not found","chat_id":"3","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T17:18:24.930+0300","msg":"Creating chat","usernames":["Nikita","Nikita"]}
+{"level":"info","timestamp":"2025-05-30T17:18:24.954+0300","msg":"Chat created successfully","chat_id":"6"}
+{"level":"info","timestamp":"2025-05-30T17:19:27.702+0300","msg":"Creating chat","usernames":["Nikita","Nikita","Nikita"]}
+{"level":"info","timestamp":"2025-05-30T17:19:27.737+0300","msg":"Chat created successfully","chat_id":"7"}
+{"level":"info","timestamp":"2025-05-30T17:19:55.194+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2025-05-30T17:20:04.015+0300","msg":"Attempting to connect to chat...","chat_id":"7","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T17:20:04.015+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"7","username":"Nikita"}
+{"level":"error","timestamp":"2025-05-30T17:20:04.028+0300","msg":"error receiving message","error":"rpc error: code = NotFound desc = chat not found"}
+{"level":"error","timestamp":"2025-05-30T17:20:04.028+0300","msg":"Error in chat connection","error":"rpc error: code = NotFound desc = chat not found","chat_id":"7","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T17:23:52.549+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2025-05-30T17:33:55.195+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2025-05-30T17:37:52.597+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2025-05-30T17:47:55.277+0300","msg":"Access token updated"}
+{"level":"info","timestamp":"2025-05-30T17:50:37.668+0300","msg":"Attempting to connect to chat...","chat_id":"7","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T17:50:37.669+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"7","username":"Nikita"}
+{"level":"error","timestamp":"2025-05-30T17:50:48.887+0300","msg":"error receiving message","error":"rpc error: code = Unavailable desc = error reading from server: EOF"}
+{"level":"error","timestamp":"2025-05-30T17:50:48.888+0300","msg":"Error in chat connection","error":"rpc error: code = Unavailable desc = error reading from server: EOF","chat_id":"7","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T17:50:58.887+0300","msg":"Attempting to connect to chat...","chat_id":"7","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T17:50:58.888+0300","msg":"Successfully connected to chat. Press Ctrl+C to disconnect.","chat_id":"7","username":"Nikita"}
+{"level":"info","timestamp":"2025-05-30T17:51:03.760+0300","msg":"Disconnecting from chat","chat_id":"7","username":"Nikita"}
+{"level":"error","timestamp":"2025-05-30T17:51:03.760+0300","msg":"error receiving message","error":"rpc error: code = Canceled desc = context canceled"}

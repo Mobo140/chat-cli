@@ -1,147 +1,163 @@
 # Chat CLI
 
-Консольный клиент для чат-сервиса, позволяющий обмениваться сообщениями в реальном времени через командную строку.
+A command-line client for the Chat Service that enables real-time messaging via the terminal.
 
-## Возможности
+---
 
-- 🔐 Аутентификация пользователей через JWT токены
-- 💬 Создание и управление чатами
-- 📨 Отправка и получение сообщений в реальном времени
-- 👥 Поддержка групповых чатов
-- 🔄 Автоматическое обновление токенов
-- 📝 Подробное логирование
-- 🖥️ Интерактивный командный интерфейс
+## Features
 
-## Установка
+- 🔐 User authentication with JWT tokens  
+- 💬 Create and manage chats  
+- 📨 Send and receive messages in real-time  
+- 👥 Support for group chats  
+- 🔄 Automatic token refresh  
+- 📝 Detailed logging  
+- 🖥️ Interactive command interface  
+
+---
+
+## Installation
 
 ```bash
-# Клонируем репозиторий
+# Clone the repository
 git clone https://github.com/Mobo140/chat-cli.git
 cd chat-cli
 
-# Устанавливаем зависимости
+# Install dependencies
 make install-deps
 
-# Собираем проект
+# Build the project
 go build -o chat-cli main.go
-```
+````
 
-## Использование
+---
 
-### Запуск CLI
+## Usage
+
+### Start the CLI
 
 ```bash
 ./chat-cli --config-path=path/to/config.env --log-level=info
 ```
 
-## Команды
+---
 
-### Основные команды
+## Commands
 
-#### 1. Вход в систему
+### Main Commands
+
+#### 1. Login
 
 ```bash
 login --username=username --password=password
 ```
 
-Аутентификация пользователя в системе. После успешного входа создается сессия с JWT токенами.
+Authenticate the user and create a session with JWT tokens upon success.
 
-#### 2. Создание чата
+#### 2. Create Chat
 
 ```bash
 create-chat --username user1 user2 user3...
 ```
 
-Создает новый чат с указанными пользователями.
+Create a new chat with specified users.
 
-- Для личного чата: `create-chat --username john`
-- Для группового чата: `create-chat --username john alice bob`
+- For a private chat: `create-chat --username john`
+- For a group chat: `create-chat --username john alice bob`
 
-#### 3. Подключение к чату
+#### 3. Connect to Chat
 
 ```bash
 connect-chat --chat-id=ID --username=username
 ```
 
-Подключается к чату и начинает получать сообщения в реальном времени.
+Connects to a chat and starts receiving messages in real-time.
 
-- Используйте `Ctrl+C` для отключения от чата
-- Все новые сообщения будут отображаться в консоли
+- Use `Ctrl+C` to disconnect
+- New messages will appear in the console
 
-#### 4. Отправка сообщений
+#### 4. Send Message
 
 ```bash
 send-message --chat-id=ID Your message text here
 ```
 
-Отправляет сообщение в указанный чат.
+Send a message to the specified chat.
 
-- Не требует кавычек для сообщений с пробелами
-- Поддерживает многострочные сообщения
+- No quotes needed for messages with spaces
+- Supports multiline messages
 
-### Служебные команды
+---
 
-- `clear` - Очищает экран терминала
-- `exit` (или `quit`, `q`) - Завершает работу приложения
-- `help` - Показывает справку по всем доступным командам
-- `help command-name` - Показывает справку по конкретной команде
+### Utility Commands
 
-### Примеры использования
+- `clear` — Clear the terminal screen
+- `exit` / `quit` / `q` — Exit the application
+- `help` — Show help for all commands
+- `help command-name` — Show help for a specific command
 
-1. Создание и подключение к чату:
+---
+
+## Usage Examples
+
+1. Create and connect to a chat:
 
 ```bash
-# Создаем новый чат
+# Create a new chat
 create-chat --username john alice
-# ID: 29
+# Example output: ID: 29
 
-# Подключаемся к чату
+# Connect to the chat
 connect-chat --chat-id=29 --username=john
-```
 
-2. Отправка сообщений:
+2. Send messages:
 
 ```bash
-# Простое сообщение
+# Simple message
 send-message --chat-id=29 Hello!
 
-# Сообщение с пробелами
+# Message with spaces
 send-message --chat-id=29 Hello, how are you today?
 ```
 
-## Обновление токенов
+---
 
-### Автоматическое обновление
+## Token Refreshing
 
-Приложение использует два типа JWT токенов:
+### Automatic Refresh
 
-- `access_token` - короткоживущий токен (15 минут)
-- `refresh_token` - долгоживущий токен (24 часа)
+The app uses two JWT token types:
 
-#### Процесс обновления
+- `access_token` — short-lived (15 minutes)
+- `refresh_token` — long-lived (24 hours)
 
-Access token обновляется автоматически за минуту до истечения срока действия
-Refresh token обновляется автоматически за час до истечения срока действия
+#### Refresh Process
 
-#### Как это работает
+- Access token is refreshed automatically 1 minute before expiry
+- Refresh token is refreshed automatically 1 hour before expiry
 
-1. При успешной аутентификации пользователь получает пару токенов
-2. Токены сохраняются в файле `.chat-cli-session`
-3. Система автоматически:
-   - Проверяет срок действия `access_token`
-   - Если до истечения осталось менее часа, использует `refresh_token` для получения новой пары
-   - Сохраняет новые токены в файл сессии
+#### How it works
 
-#### Ручное обновление
+1. On successful login, user receives both tokens
+2. Tokens are saved in the `.chat-cli-session` file
+3. The system automatically:
 
-В случае необходимости токены можно обновить вручную через повторную аутентификацию:
+   - Checks `access_token` expiry
+   - If less than 1 hour left, uses `refresh_token` to get new tokens
+   - Saves new tokens to the session file
+
+#### Manual Refresh
+
+Tokens can be refreshed manually by logging in again:
 
 ```bash
 login --username=your_username --password=your_password
 ```
 
-### Безопасность
+---
 
-- Refresh token хранится в зашифрованном виде
-- При компрометации токенов можно выполнить повторную аутентификацию
-- Все запросы к сервисам выполняются по защищенному соединению
+## Security
+
+- Refresh tokens are stored encrypted
+- Tokens can be invalidated by re-authentication
+- All requests use secure (TLS) connections
