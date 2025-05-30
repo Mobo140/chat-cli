@@ -15,6 +15,7 @@ import (
 	"github.com/Mobo140/chat-cli/internal/clients/chat"
 	"github.com/Mobo140/platform_common/pkg/logger"
 	"github.com/chzyer/readline"
+	"github.com/gofrs/flock"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
 	"google.golang.org/grpc/metadata"
@@ -52,13 +53,11 @@ func StartREPL(cmd *cobra.Command) {
 	}
 	defer rl.Close()
 
-	// Создаем канал для сигнала завершения
 	done := make(chan os.Signal, 1)
 	signal.Notify(done, os.Interrupt, syscall.SIGTERM)
 
 	fmt.Println("Welcome to Chat CLI. Type 'exit' to quit or press Ctrl+C.")
 
-	// Запускаем горутину для обработки сигнала завершения
 	go func() {
 		<-done
 		fmt.Println("\nReceived interrupt signal. Exiting...")
@@ -149,6 +148,38 @@ func newCreateChatCmd(chatClient clients.ChatServiceClient) *cobra.Command {
 	return cmd
 }
 
+func getSessionFilePath(basePath, username string) string {
+	return fmt.Sprintf("%s.%s", basePath, username)
+}
+
+func loadSession(sessionFile string) (*Session, error) {
+	data, err := os.ReadFile(sessionFile)
+	if err != nil {
+		return nil, err
+	}
+	var s Session
+	if err := json.Unmarshal(data, &s); err != nil {
+		return nil, err
+	}
+	return &s, nil
+}
+
+func safeWriteSessionFile(session *Session, sessionFile string) error {
+	lock := flock.New(sessionFile + ".lock")
+	defer lock.Unlock()
+
+	ok, err := lock.TryLock()
+	if err != nil || !ok {
+		return err
+	}
+
+	data, err := json.MarshalIndent(session, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(sessionFile, data, 0644)
+}
+
 func newLoginCmd(authClient clients.AuthServiceClient, sessionFile string, loginDoneCh chan struct{}) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "login",
@@ -178,8 +209,15 @@ func newLoginCmd(authClient clients.AuthServiceClient, sessionFile string, login
 				RefreshToken: refreshToken,
 			}
 
-			if err := saveSession(session, sessionFile); err != nil {
+			userSessionFile := getSessionFilePath(sessionFile, username)
+			if err := safeWriteSessionFile(session, userSessionFile); err != nil {
 				logger.Error("failed to save session", zap.Error(err))
+				return
+			}
+
+			// Устанавливаем переменную окружения для текущего пользователя
+			if err := os.Setenv("CHAT_USERNAME", username); err != nil {
+				logger.Error("failed to set CHAT_USERNAME environment variable", zap.Error(err))
 				return
 			}
 
@@ -189,7 +227,6 @@ func newLoginCmd(authClient clients.AuthServiceClient, sessionFile string, login
 			case loginDoneCh <- struct{}{}:
 				logger.Debug("Sent signal about new login")
 			default:
-
 				select {
 				case <-loginDoneCh:
 				default:
@@ -216,8 +253,15 @@ func RefreshTokenCron(authClient clients.AuthServiceClient, sessionFile string, 
 		default:
 		}
 
+		username := os.Getenv("CHAT_USERNAME")
+		if username == "" {
+			logger.Error("CHAT_USERNAME environment variable is not set")
+			continue
+		}
+
+		userSessionFile := getSessionFilePath(sessionFile, username)
 		for {
-			session, err := loadSession(sessionFile)
+			session, err := loadSession(userSessionFile)
 			if err != nil {
 				logger.Error("failed to load session", zap.Error(err))
 				break
@@ -234,7 +278,7 @@ func RefreshTokenCron(authClient clients.AuthServiceClient, sessionFile string, 
 
 			session.RefreshToken = newRefreshToken
 
-			if err := saveSession(session, sessionFile); err != nil {
+			if err := safeWriteSessionFile(session, userSessionFile); err != nil {
 				logger.Error("failed to save session", zap.Error(err))
 				break
 			}
@@ -245,7 +289,6 @@ func RefreshTokenCron(authClient clients.AuthServiceClient, sessionFile string, 
 			case refreshTokenDoneCh <- struct{}{}:
 				logger.Debug("Sent signal to start access token updates")
 			default:
-
 			}
 
 			time.Sleep(refreshTokenCronInterval)
@@ -256,8 +299,15 @@ func RefreshTokenCron(authClient clients.AuthServiceClient, sessionFile string, 
 func AccessTokenCron(authClient clients.AuthServiceClient, sessionFile string, refreshTokenDoneCh chan struct{}) {
 	<-refreshTokenDoneCh
 
+	username := os.Getenv("CHAT_USERNAME")
+	if username == "" {
+		logger.Error("CHAT_USERNAME environment variable is not set")
+		return
+	}
+
+	userSessionFile := getSessionFilePath(sessionFile, username)
 	for {
-		session, err := loadSession(sessionFile)
+		session, err := loadSession(userSessionFile)
 		if err != nil {
 			logger.Error("failed to load session", zap.Error(err))
 			continue
@@ -273,7 +323,7 @@ func AccessTokenCron(authClient clients.AuthServiceClient, sessionFile string, r
 		}
 
 		session.AccessToken = newAccessToken
-		if err := saveSession(session, sessionFile); err != nil {
+		if err := safeWriteSessionFile(session, userSessionFile); err != nil {
 			logger.Error("failed to save session", zap.Error(err))
 			continue
 		}
@@ -281,28 +331,6 @@ func AccessTokenCron(authClient clients.AuthServiceClient, sessionFile string, r
 		logger.Info("Access token updated")
 		time.Sleep(accessTokenCronInterval)
 	}
-}
-
-func loadSession(sessionFile string) (*Session, error) {
-	data, err := os.ReadFile(sessionFile)
-	if err != nil {
-		return nil, err
-	}
-
-	var session Session
-	if err := json.Unmarshal(data, &session); err != nil {
-		return nil, err
-	}
-	return &session, nil
-}
-
-func saveSession(session *Session, sessionFile string) error {
-	data, err := json.Marshal(session)
-	if err != nil {
-		return err
-	}
-
-	return os.WriteFile(sessionFile, data, 0600)
 }
 
 func newConnectChatCmd(chatClient clients.ChatServiceClient) *cobra.Command {
@@ -320,17 +348,14 @@ Use Ctrl+C to disconnect from chat.`,
 				zap.String("username", username))
 
 			ctx, cancel := context.WithCancel(context.Background())
-			defer cancel() // Гарантируем, что cancel будет вызван при выходе из функции
+			defer cancel()
 
-			// Создаем канал для сигнала завершения
 			done := make(chan os.Signal, 1)
 			signal.Notify(done, os.Interrupt, syscall.SIGTERM)
-			defer signal.Stop(done) // Очищаем обработчик сигналов
+			defer signal.Stop(done)
 
-			// Создаем канал для ошибок
 			errChan := make(chan error, 1)
 
-			// Запускаем подключение в отдельной горутине
 			go func() {
 				errChan <- chatClient.ConnectChat(ctx, chatID, username)
 			}()
@@ -339,7 +364,6 @@ Use Ctrl+C to disconnect from chat.`,
 				zap.String("chat_id", chatID),
 				zap.String("username", username))
 
-			// Ждем либо сигнала завершения, либо ошибки
 			select {
 			case <-done:
 				logger.Info("Disconnecting from chat",
@@ -375,13 +399,11 @@ Example: send-message --chat-id=1 Hello, world!`,
 		Run: func(cmd *cobra.Command, args []string) {
 			chatID, _ := cmd.Flags().GetString("chat-id")
 
-			// Проверяем, что есть аргументы для сообщения
 			if len(args) == 0 {
 				logger.Error("no message provided")
 				return
 			}
 
-			// Собираем сообщение из всех оставшихся аргументов
 			message := strings.Join(args, " ")
 
 			logger.Debug("Command arguments:",
@@ -389,8 +411,14 @@ Example: send-message --chat-id=1 Hello, world!`,
 				zap.String("chat_id", chatID),
 				zap.String("message", message))
 
-			// Загружаем сесси�� для получения access token
-			session, err := loadSession(sessionFile)
+			username := os.Getenv("CHAT_USERNAME")
+			if username == "" {
+				logger.Error("CHAT_USERNAME environment variable is not set")
+				return
+			}
+
+			userSessionFile := getSessionFilePath(sessionFile, username)
+			session, err := loadSession(userSessionFile)
 			if err != nil {
 				logger.Error("failed to load session", zap.Error(err))
 				return
@@ -418,7 +446,6 @@ Example: send-message --chat-id=1 Hello, world!`,
 		},
 	}
 
-	// Добавляем флаг chat-id перед аргументами сообщения
 	cmd.Flags().String("chat-id", "", "Chat ID to send message to")
 	cmd.MarkFlagRequired("chat-id")
 

@@ -9,6 +9,7 @@ require (
 	github.com/Mobo140/chat v1.1.0
 	github.com/Mobo140/platform_common v1.8.0
 	github.com/chzyer/readline v1.5.1
+	github.com/gofrs/flock v0.12.1
 	github.com/grpc-ecosystem/grpc-opentracing v0.0.0-20180507213350-8e809c8a8645
 	github.com/joho/godotenv v1.5.1
 	github.com/opentracing/opentracing-go v1.2.0
